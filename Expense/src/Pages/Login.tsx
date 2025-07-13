@@ -1,19 +1,45 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { User } from 'lucide-react'
+import { toast } from 'react-toastify'
 import Email from '../InputFields/Email'
+import axiosAuth from '../Axios/axiosAuth'
 import Password from '../InputFields/Password'
-
+import { useNavigate } from 'react-router-dom'
+import { loginSchema } from '../Validations/loginform'
+import { useLoader } from '../Contexts/LoaderContext';
 type Props = {}
-
 const Login: React.FC<Props> = (props: Props) => {
+    const navigate = useNavigate();
+    const { setLoading } = useLoader();
     const formik = useFormik({
         initialValues: {
             email: '',
             password: ''
         },
-        onSubmit: (values) => { alert(JSON.stringify(values)) }
+        validationSchema: loginSchema,
+        onSubmit: async (values) => {
+            try {
+                setLoading(true);
+                const { data } = await axiosAuth.post(`/login`, values);
+                if (data?.user) {
+                    toast.success(data?.message);
+                    data?.token && localStorage.setItem('accessToken', data?.token);
+                    navigate('/');
+                    return;
+                }
+            } catch (error: any) {
+                console.log(error);
+                toast.error(error?.response?.data?.error || 'Login failed');
+            } finally {
+                setLoading(false); // ✅ ensures loader is always stopped
+            }
+
+        }
     });
+
+
+
     return (
         <div className="login_container_main min-h-screen flex flex-col justify-center">
             <div className="login_inner_containe">
@@ -26,12 +52,14 @@ const Login: React.FC<Props> = (props: Props) => {
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="form-group mt-5">
                                     <Email chnageFunc={formik.handleChange} placeHolder='User Email' className='p-3 w-1/3 rounded-2xl bg-amber-50' />
+                                    <p className="mt-3 text-teal-300 font-bold">{formik.errors.email}</p>
                                 </div>
                                 <div className="form-group mt-5">
                                     <Password chnageFunc={formik.handleChange} placeHolder='User Password' className='p-3 w-1/3 rounded-2xl bg-amber-50' />
+                                    <p className='mt-3 text-teal-300 font-bold'>{formik.errors.password}</p>
                                 </div>
                                 <div className="flex w-1/3 m-auto justify-between mt-8 gap-4">
-                                    <button type="submit" className="flex-1 border bg-green-500 uppercase rounded-3xl px-8 py-3 text-lg font-bold text-white">
+                                    <button type="submit" className="flex-1 border bg-green-500 uppercase rounded-3xl px-8 py-3 text-lg font-bold text-white cursor-pointer">
                                         Login
                                     </button>
                                     <p className="self-center text-white font-bold text-lg">or</p>
