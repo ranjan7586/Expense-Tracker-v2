@@ -41,7 +41,7 @@ const Login: React.FC<Props> = (props: Props) => {
 
 
     return (
-        <div className="login_container_main min-h-screen flex flex-col justify-center">
+        <div className="container_main min-h-screen flex flex-col justify-center">
             <div className="login_inner_containe">
                 <div className='flex flex-wrap'>
                     <div className='login_left_part flex-1 flex items-center justify-center flex-col p-4 border-r-2 border-gray-200'>
