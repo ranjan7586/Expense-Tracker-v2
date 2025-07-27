@@ -58,7 +58,7 @@ const Login: React.FC<Props> = (props: Props) => {
                                     <Password chnageFunc={formik.handleChange} placeHolder='User Password' className='p-3 w-1/3 rounded-2xl bg-amber-50' />
                                     <p className='mt-3 text-teal-300 font-bold'>{formik.errors.password}</p>
                                 </div>
-                                <div className="flex w-1/3 m-auto justify-between mt-8 gap-4">
+                                <div className="flex w-1/3 m-auto justify-center mt-8 gap-4">
                                     <button type="submit" className="flex-1 border bg-green-500 uppercase rounded-3xl px-8 py-3 text-lg font-bold text-white cursor-pointer">
                                         Login
                                     </button>
