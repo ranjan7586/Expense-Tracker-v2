@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, CreditCard, TrendingUp, Calendar, DollarSign, Filter, X, BarChart3, PieChart, ShoppingCart, Car, Coffee, Gamepad2, Home, Zap, Gift, Utensils } from 'lucide-react';
-import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 const ExpenseTrackerDesign = () => {
     const [showModal, setShowModal] = useState(false);

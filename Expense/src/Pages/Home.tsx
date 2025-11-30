@@ -1,123 +1,127 @@
 import React from 'react';
-import { Plus, CreditCard, TrendingUp, Calendar, DollarSign, Filter, X, BarChart3, PieChart, ShoppingCart, Car, Coffee, Gamepad2, Home as HomeIcon, Zap, Gift, Utensils } from 'lucide-react';
 import LineChartGraph from '../Components/charts/LineChart';
+import TopDtlsBar from '../Components/parts/TopDtlsBar';
+import type { Expense } from '../Types/expense';
+import TransactionTable from '../Components/parts/TransactionTable';
+import { ChartArea, CreditCard, Filter, Plus, Table, TrendingUp } from 'lucide-react';
+import AddExpenseModal from '../Components/parts/AddExpenseModal';
+import AppHeader from '../Components/parts/AppHeader';
 
 type Props = {}
-const expenses = [
+const expenses: Expense[] = [
     { id: 1, title: 'Grocery Shopping', amount: 85.50, category: 'Food', date: '2024-01-26', type: 'expense', icon: 'ShoppingCart' },
     { id: 2, title: 'Salary', amount: 3500.00, category: 'Income', date: '2024-01-25', type: 'income', icon: 'DollarSign' },
     { id: 3, title: 'Gas Station', amount: 45.20, category: 'Transport', date: '2024-01-24', type: 'expense', icon: 'Car' },
     { id: 4, title: 'Netflix Subscription', amount: 15.99, category: 'Entertainment', date: '2024-01-23', type: 'expense', icon: 'Gamepad2' }
 ];
 const Home: React.FC<Props> = (props: Props) => {
-    const getIcon = (iconName: string, className = "w-4 h-4") => {
-        const icons: any = {
-            ShoppingCart: <ShoppingCart className={className} />,
-            DollarSign: <DollarSign className={className} />,
-            Car: <Car className={className} />,
-            Gamepad2: <Gamepad2 className={className} />,
-            Coffee: <Coffee className={className} />,
-            Home: <HomeIcon className={className} />,
-            Zap: <Zap className={className} />,
-            Gift: <Gift className={className} />,
-            Utensils: <Utensils className={className} />
-        };
-        return icons[iconName] || <DollarSign className={className} />;
-    };
+    const [showModal, setShowModal] = React.useState(false);
+    const [currentView, setCurrentView] = React.useState("overview");
     return (
-        <div className='container_main min-h-screen'>
-            <div className="inner_container p-4 max-w-7xl mx-auto space-y-6">
-                <div className="top_hero_sec flex flex-col md:flex-row justify-around items-stretch md:items-center mt-8 gap-5 mb-8">
-                    {/* Total Balance */}
-                    <div className="total_bal border rounded-lg bg-white/20 w-full md:w-1/3 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 backdrop-blur-lg border-white/10 flex items-center justify-between p-5">
-                        <div className="dis_text">
-                            <p className='text-sm text-white/70 font-medium'>Total Balance</p>
-                            <p className='text-3xl font-bold text-white'>$2000</p>
+        <div className='container_main min-h-screen p-6'>
+            <AppHeader/>
+            <div className="inner_container max-w-7xl mx-auto space-y-6">
+                <div className="hero_dtls_bar">
+                    <TopDtlsBar />
+                </div>
+                <div className="hero_toggle_bar">
+                    <div className="toggle_bar_inner bg-white/20 shadow-2xl rounded-2xl p-3 flex gap-5">
+                        <div className="overview_btn">
+                            <button onClick={() => setCurrentView("overview")} className={`px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer 
+                                transition-all duration-300 ${currentView === "overview" ? "bg-white text-black" : "text-white hover:bg-white/20"}`}>
+                                <Table /> Overview
+                            </button>
                         </div>
-                        <div className="dis_logo p-3 rounded-xl bg-white/20">
-                            <DollarSign className='text-white w-6 h-6' />
-                        </div>
-                    </div>
-
-                    {/* Expenses */}
-                    <div className="expenses border rounded-lg bg-white w-full md:w-1/3 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 backdrop-blur-lg border-white/10 flex items-center justify-between p-5">
-                        <div className="dis_text">
-                            <p className='text-sm font-medium text-gray-400'>Expenses</p>
-                            <p className='text-3xl font-bold'>$5900</p>
-                        </div>
-                        <div className="dis_logo p-3 rounded-xl bg-red-100">
-                            <TrendingUp className='text-red-600 w-6 h-6' />
-                        </div>
-                    </div>
-
-                    {/* Remaining */}
-                    <div className="rem_bal border rounded-lg bg-white/20 w-full md:w-1/3 shadow-xl hover:shadow-2xl hover:bg-white/15 transition-all duration-300 backdrop-blur-lg border-white/10 flex items-center justify-between p-5">
-                        <div className="dis_text">
-                            <p className='text-sm text-white/70 font-medium'>Remaining</p>
-                            <p className='text-3xl font-bold text-white'>$3900</p>
-                        </div>
-                        <div className="dis_logo p-3 rounded-xl bg-green-400/30">
-                            <Calendar className='text-white w-6 h-6' />
+                        <div className="analytics_btn">
+                            <button onClick={() => setCurrentView("analytics")} className={`px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer 
+                                transition-all duration-300 ${currentView === "analytics" ? "bg-white text-black" : "text-white hover:bg-white/20"}`}>
+                                <ChartArea /> Analytics
+                            </button>
                         </div>
                     </div>
                 </div>
+                <div className="hero_add_filter">
+                    <div className="add_filter_inner flex gap-5">
+                        <div className="add_expense_btn">
+                            <button onClick={() => setShowModal(true)} className='px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer bg-white'>
+                                <Plus /> Add Expense
+                            </button>
+                        </div>
+                        <div className="filter_btn">
+                            <button className='px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer
+                             bg-white/20 backdrop-blur-lg border border-white/30 text-white'>
+                                <Filter /> Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {currentView == "overview" &&
+                    <div className="hero_transactions flex flex-col md:flex-row md:gap-[5%] gap-5">
+                        <div className="hero_trsac_sec md:w-[60%] w-full">
 
-                <div className="hero_chart flex justify-around items-center p-8 my-4 bg-white shadow-2xl rounded-2xl mb-8">
-                    <LineChartGraph />
-                    <LineChartGraph />
-                </div>
-                <div className="hero_transactions lg:col-span-2 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden">
-                    <div className="p-6 border-b border-gray-200">
-                        <h2 className="text-xl font-bold text-gray-800">Recent Transactions</h2>
+                            <TransactionTable expenses={expenses} />
+                        </div>
+                        <div className="category_wise_exp_sec md:w-[35%] w-full">
+                            <div className="category_wise_exp_sec_inner space-y-3">
+                                {/* Category Breakdown - Dark Card */}
+                                <div className="bg-gray-800/90 backdrop-blur-lg border border-gray-700/50 rounded-2xl p-6 shadow-xl text-white">
+                                    <h3 className="text-lg font-bold mb-4">Categories</h3>
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-300">Food & Dining</span>
+                                            <span className="font-semibold">$456.80</span>
+                                        </div>
+                                        <div className="w-full bg-gray-700 rounded-full h-2">
+                                            <div className="bg-blue-400 h-2 rounded-full" style={{ width: '65%' }}></div>
+                                        </div>
+
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-300">Transportation</span>
+                                            <span className="font-semibold">$245.20</span>
+                                        </div>
+                                        <div className="w-full bg-gray-700 rounded-full h-2">
+                                            <div className="bg-green-400 h-2 rounded-full" style={{ width: '35%' }}></div>
+                                        </div>
+
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-300">Entertainment</span>
+                                            <span className="font-semibold">$189.60</span>
+                                        </div>
+                                        <div className="w-full bg-gray-700 rounded-full h-2">
+                                            <div className="bg-purple-400 h-2 rounded-full" style={{ width: '27%' }}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Quick Actions - Colorful Cards */}
+                                <div className="space-y-3">
+                                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105">
+                                        <div className="flex items-center gap-3">
+                                            <CreditCard className="w-5 h-5" />
+                                            <span className="font-semibold">Add Income</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-gradient-to-r from-pink-500 to-red-500 rounded-xl p-4 text-white cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105">
+                                        <div className="flex items-center gap-3">
+                                            <TrendingUp className="w-5 h-5" />
+                                            <span className="font-semibold">View Reports</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {expenses.map((expense) => (
-                                    <tr key={expense.id} className="hover:bg-gray-50 transition-colors duration-200">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center">
-                                                <div className={`p-2 rounded-lg mr-3 ${expense.type === 'income'
-                                                    ? 'bg-green-100 text-green-600'
-                                                    : expense.category === 'Food'
-                                                        ? 'bg-orange-100 text-orange-600'
-                                                        : expense.category === 'Transport'
-                                                            ? 'bg-blue-100 text-blue-600'
-                                                            : expense.category === 'Entertainment'
-                                                                ? 'bg-purple-100 text-purple-600'
-                                                                : 'bg-gray-100 text-gray-600'
-                                                    }`}>
-                                                    {getIcon(expense.icon)}
-                                                </div>
-                                                <span className="text-gray-900 font-medium">{expense.title}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                                {expense.category}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{expense.date}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold">
-                                            <span className={expense.type === 'income' ? 'text-green-600' : 'text-red-600'}>
-                                                {expense.type === 'income' ? '+' : '-'}${expense.amount}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                }
+                {currentView == "analytics" &&
+                    <div className="hero_chart flex justify-around items-center p-8 my-4 bg-white shadow-2xl rounded-2xl mb-8">
+                        <LineChartGraph />
+                        <LineChartGraph />
                     </div>
-                </div>
+                }
             </div>
+            {
+                showModal && <AddExpenseModal setShowModal={setShowModal} />
+            }
         </div>
     )
 }
