@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {}
 
-const AppHeader: React.FC<Props> = (props: Props) => {
+const AppHeader: React.FC<Props> = () => {
     return (
         < div className="text-center" >
             <h1 className="text-4xl md:text-5xl font-extrabold text-green-400 tracking-wide">

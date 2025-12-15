@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import GlobalLoader from '../Components/GlobalLoader'
+import GlobalLoader from '../components/feedback/GlobalLoader'
 
 type Props = {
     children: React.ReactNode

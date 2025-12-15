@@ -2,13 +2,12 @@ import React from 'react'
 import { useFormik } from 'formik'
 import { User } from 'lucide-react'
 import { toast } from 'react-toastify'
-import Email from '../InputFields/Email'
-import axiosAuth from '../Axios/axiosAuth'
-import Password from '../InputFields/Password'
+import axiosAuth from '../api/axiosAuth'
+import { EmailInput, PasswordInput } from '@/components/ui';
 import { useNavigate } from 'react-router-dom'
-import { loginSchema } from '../Validations/loginform'
-import { useLoader } from '../Contexts/LoaderContext';
-import AppHeader from '../Components/parts/AppHeader'
+import AppHeader from '../components/layout/AppHeader'
+import { useLoader } from '../contexts/LoaderContext'
+import { loginSchema } from '../validations/auth'
 type Props = {}
 const Login: React.FC<Props> = () => {
     const navigate = useNavigate();
@@ -43,7 +42,7 @@ const Login: React.FC<Props> = () => {
 
     return (
         <div className="container_main min-h-screen flex flex-col items-center p-6">
-            <AppHeader/>
+            <AppHeader />
             <div className="flex-1 flex items-center md:items-center md:justify-center w-full">
                 <div className="login_inner_containe w-full">
                     <div className="flex flex-col md:flex-row p-4">
@@ -54,11 +53,11 @@ const Login: React.FC<Props> = () => {
                             <div className="login_form w-full text-center">
                                 <form onSubmit={formik.handleSubmit}>
                                     <div className="form-group mt-5">
-                                        <Email chnageFunc={formik.handleChange} placeHolder='User Email' className='p-3 w-2/3 md:w-2/4 rounded-2xl bg-amber-50' />
+                                        <EmailInput chnageFunc={formik.handleChange} placeHolder='User Email' className='p-3 w-2/3 md:w-2/4 rounded-2xl bg-amber-50' />
                                         <p className="mt-3 text-teal-300 font-bold">{formik.errors.email}</p>
                                     </div>
                                     <div className="form-group mt-5">
-                                        <Password chnageFunc={formik.handleChange} placeHolder='User Password' className='p-3 w-2/3 md:w-2/4 rounded-2xl bg-amber-50' />
+                                        <PasswordInput chnageFunc={formik.handleChange} placeHolder='User Password' className='p-3 w-2/3 md:w-2/4 rounded-2xl bg-amber-50' />
                                         <p className='mt-3 text-teal-300 font-bold'>{formik.errors.password}</p>
                                     </div>
                                     <div className="flex w-1/3 m-auto justify-center mt-8 gap-4">

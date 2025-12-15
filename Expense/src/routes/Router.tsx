@@ -1,6 +1,6 @@
-import Home from './Pages/Home'
-import Login from './Pages/Login'
-import ExpenseTrackerDesign from './Pages/ExampleDesign'
+import Home from '../pages/Home'
+import Login from '../pages/Login'
+import ExpenseTrackerDesign from '../pages/ExampleDesign'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 

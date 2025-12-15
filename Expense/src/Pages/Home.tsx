@@ -1,25 +1,26 @@
 import React from 'react';
-import LineChartGraph from '../Components/charts/LineChart';
-import TopDtlsBar from '../Components/parts/TopDtlsBar';
-import type { Expense } from '../Types/expense';
-import TransactionTable from '../Components/parts/TransactionTable';
+import LineChartGraph from '../components/charts/LineChart';
+import type { Expense } from '../features/expenses/types/expense';
+import TransactionTable from '../components/transaction/TransactionTable';
 import { ChartArea, CreditCard, Filter, Plus, Table, TrendingUp } from 'lucide-react';
-import AddExpenseModal from '../Components/parts/AddExpenseModal';
-import AppHeader from '../Components/parts/AppHeader';
+import AddExpenseModal from '../features/expenses/components/AddExpenseModal';
+import AppHeader from '../components/layout/AppHeader';
+import TopDtlsBar from '../components/layout/TopDtlsBar';
+import { ActionButton, ToggleButton } from '@/components/ui';
 
 type Props = {}
 const expenses: Expense[] = [
-    { id: 1, title: 'Grocery Shopping', amount: 85.50, category: 'Food', date: '2024-01-26', type: 'expense', icon: 'ShoppingCart' },
     { id: 2, title: 'Salary', amount: 3500.00, category: 'Income', date: '2024-01-25', type: 'income', icon: 'DollarSign' },
     { id: 3, title: 'Gas Station', amount: 45.20, category: 'Transport', date: '2024-01-24', type: 'expense', icon: 'Car' },
+    { id: 1, title: 'Grocery Shopping', amount: 85.50, category: 'Food', date: '2024-01-26', type: 'expense', icon: 'ShoppingCart' },
     { id: 4, title: 'Netflix Subscription', amount: 15.99, category: 'Entertainment', date: '2024-01-23', type: 'expense', icon: 'Gamepad2' }
 ];
-const Home: React.FC<Props> = (props: Props) => {
+const Home: React.FC<Props> = () => {
     const [showModal, setShowModal] = React.useState(false);
     const [currentView, setCurrentView] = React.useState("overview");
     return (
         <div className='container_main min-h-screen p-6'>
-            <AppHeader/>
+            <AppHeader />
             <div className="inner_container max-w-7xl mx-auto space-y-6">
                 <div className="hero_dtls_bar">
                     <TopDtlsBar />
@@ -27,25 +28,38 @@ const Home: React.FC<Props> = (props: Props) => {
                 <div className="hero_toggle_bar">
                     <div className="toggle_bar_inner bg-white/20 shadow-2xl rounded-2xl p-3 flex gap-5">
                         <div className="overview_btn">
-                            <button onClick={() => setCurrentView("overview")} className={`px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer 
+                            {/* <button onClick={() => setCurrentView("overview")} className={`px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer 
                                 transition-all duration-300 ${currentView === "overview" ? "bg-white text-black" : "text-white hover:bg-white/20"}`}>
                                 <Table /> Overview
-                            </button>
+                            </button> */}
+                            <ToggleButton
+                                active={currentView === 'overview'}
+                                onClick={() => setCurrentView('overview')}
+                                icon={<Table />}
+                                label="Overview"
+                            />
                         </div>
                         <div className="analytics_btn">
-                            <button onClick={() => setCurrentView("analytics")} className={`px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer 
+                            {/* <button onClick={() => setCurrentView("analytics")} className={`px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer 
                                 transition-all duration-300 ${currentView === "analytics" ? "bg-white text-black" : "text-white hover:bg-white/20"}`}>
                                 <ChartArea /> Analytics
-                            </button>
+                            </button> */}
+                            <ToggleButton
+                                active={currentView === 'analytics'}
+                                onClick={() => setCurrentView('analytics')}
+                                icon={<ChartArea />}
+                                label="Analytics"
+                            />
                         </div>
                     </div>
                 </div>
                 <div className="hero_add_filter">
                     <div className="add_filter_inner flex gap-5">
                         <div className="add_expense_btn">
-                            <button onClick={() => setShowModal(true)} className='px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer bg-white'>
+                            {/* <button onClick={() => setShowModal(true)} className='px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer bg-white'>
                                 <Plus /> Add Expense
-                            </button>
+                            </button> */}
+                            <ActionButton onClick={() => setShowModal(true)} icon={<Plus />} >Add Expense</ActionButton>
                         </div>
                         <div className="filter_btn">
                             <button className='px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer
@@ -113,7 +127,7 @@ const Home: React.FC<Props> = (props: Props) => {
                     </div>
                 }
                 {currentView == "analytics" &&
-                    <div className="hero_chart flex justify-around items-center p-8 my-4 bg-white shadow-2xl rounded-2xl mb-8">
+                    <div className="hero_chart grid grid-cols-1 md:grid-cols-2 gap-6 p-8 my-4 bg-white shadow-2xl rounded-2xl mb-8">
                         <LineChartGraph />
                         <LineChartGraph />
                     </div>

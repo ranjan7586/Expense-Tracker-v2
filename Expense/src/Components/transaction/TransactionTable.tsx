@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Expense } from '../../Types/expense'
+import type { Expense } from '../../features/expenses/types/expense'
 import { DollarSign, ShoppingCart, Car, Coffee, Gamepad2, Home as HomeIcon, Zap, Gift, Utensils } from 'lucide-react';
 
 

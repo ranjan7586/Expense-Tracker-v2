@@ -1,8 +1,8 @@
 import './App.css';
-import Router from './Router';
+import Router from './routes/Router';
 import { ToastContainer } from 'react-toastify';
-import { LoaderProvider } from './Contexts/LoaderContext';
-import ErrorBoundary from './Errors/ErrorBoundary';
+import ErrorBoundary from './errors/ErrorBoundary';
+import { LoaderProvider } from './contexts/LoaderContext';
 
 
 

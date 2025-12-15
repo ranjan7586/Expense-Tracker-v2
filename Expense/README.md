@@ -66,4 +66,75 @@ export default tseslint.config([
     },
   },
 ])
+
+
+src/
+├── api/
+│   └── axiosAuth.ts
+│
+├── assets/
+│
+├── components/
+│   ├── charts/
+│   │   └── LineChart.tsx
+│   │
+│   ├── layout/
+│   │   ├── AppHeader.tsx
+│   │   └── TopDetailsBar.tsx
+│   │
+│   ├── transaction/
+│   │   └── TransactionTable.tsx
+│   │
+│   ├── ui/
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   ├── EmailInput.tsx
+│   │   ├── PasswordInput.tsx
+│   │   └── Modal.tsx
+│   │
+│   └── feedback/
+│       └── GlobalLoader.tsx
+│
+├── features/
+│   └── expenses/
+│       ├── components/
+│       │   └── AddExpenseModal.tsx
+│       ├── services/
+│       │   └── expenseService.ts
+│       ├── types.ts
+│       └── validations.ts
+│
+├── contexts/
+│   └── LoaderContext.tsx
+│
+├── errors/
+│   └── ErrorBoundary.tsx
+│
+├── helpers/
+│   └── helpers.ts
+│
+├── pages/
+│   ├── Home.tsx
+│   ├── Login.tsx
+│   └── ExampleDesign.tsx
+│
+├── routes/
+│   └── Router.tsx
+│
+├── styles/
+│   ├── index.css
+│   └── App.css
+│
+├── types/
+│   └── api.ts
+│
+├── validations/
+│   └── auth.ts
+│
+├── App.tsx
+├── main.tsx
+└── vite-env.d.ts
+
+
+
 ```
