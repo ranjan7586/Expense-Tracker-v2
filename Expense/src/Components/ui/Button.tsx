@@ -15,7 +15,7 @@ function Button({ variant = 'primary', icon, className, children, ...props }: Bu
                 {
                     'bg-white text-black': variant === 'primary',
                     'bg-white/20 text-white hover:bg-white/30': variant === 'secondary',
-                    'text-white hover:bg-white/20': variant === 'ghost',
+                    'hover:bg-white/20': variant === 'ghost',
                 },
                 className
             )}
