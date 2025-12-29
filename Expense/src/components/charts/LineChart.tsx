@@ -1,6 +1,6 @@
 import { TrendingUp } from 'lucide-react';
 import React from 'react'
-import { LineChart, CartesianGrid, Line, XAxis, YAxis, Legend, ResponsiveContainer, Tooltip } from 'recharts';
+import { LineChart, CartesianGrid, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 type Props = {}
 const data = [
@@ -31,7 +31,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
     }
     return null;
 };
-const LineChartGraph: React.FC<Props> = (props: Props) => {
+const LineChartGraph: React.FC<Props> = () => {
     return (
         <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">

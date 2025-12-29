@@ -2,8 +2,8 @@ import "./App.css";
 import Router from "./routes/Router";
 import { ToastContainer } from "react-toastify";
 import ErrorBoundary from "./errors/ErrorBoundary";
-import { LoaderProvider } from "./contexts/LoaderContext";
 import AuthProvider from "./contexts/AuthProvider";
+import { LoaderProvider } from "./contexts/LoaderContext";
 
 function App() {
   return (
