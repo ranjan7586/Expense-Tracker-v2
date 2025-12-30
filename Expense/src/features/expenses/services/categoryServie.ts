@@ -6,4 +6,7 @@ export const categoryService = {
   getAll() {
     return axiosAuth.get<ApiResponse<ExpenseCategory[]>>("/expense-categories");
   },
+  create(data: ExpenseCategory) {
+    return axiosAuth.post<ApiResponse<ExpenseCategory>>("/expense-categories/create", data);
+  },
 };
