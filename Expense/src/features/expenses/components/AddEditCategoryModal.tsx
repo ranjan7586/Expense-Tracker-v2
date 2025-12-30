@@ -7,7 +7,7 @@ type Props = {
   setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditCategoryModal = ({ operation, setShowEditModal }: Props) => {
+const EditCategoryModal = ({ setShowEditModal }: Props) => {
   const [catName, setCatName] = React.useState("");
   const [catType, setCatType] = React.useState("");
 
