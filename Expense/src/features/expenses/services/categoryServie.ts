@@ -7,6 +7,20 @@ export const categoryService = {
     return axiosAuth.get<ApiResponse<ExpenseCategory[]>>("/expense-categories");
   },
   create(data: ExpenseCategory) {
-    return axiosAuth.post<ApiResponse<ExpenseCategory>>("/expense-categories/create", data);
+    return axiosAuth.post<ApiResponse<ExpenseCategory>>(
+      "/expense-categories/create",
+      data
+    );
+  },
+  update(id: any, data: ExpenseCategory) {
+    return axiosAuth.patch<ApiResponse<ExpenseCategory>>(
+      `/expense-categories/${id}`,
+      data
+    );
+  },
+  delete(id: any) {
+    return axiosAuth.delete<ApiResponse<ExpenseCategory>>(
+      `/expense-categories/${id}`
+    );
   },
 };
