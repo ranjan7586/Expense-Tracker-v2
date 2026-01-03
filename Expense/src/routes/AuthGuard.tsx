@@ -4,7 +4,6 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const AuthGuard = () => {
   const { token, isAuthLoading } = useAuth();
-  console.log(token);
   if(isAuthLoading){
     return <GlobalLoader/>;
   }

@@ -1,26 +1,85 @@
 import React from "react";
-import { categoryService } from "../services/categoryServie";
-import type { ExpenseCategory } from "../types/expense";
-import { Edit, Plus, Trash2, X } from "lucide-react";
+import { toast } from "react-toastify";
 import Button from "@/components/ui/Button";
+import { Edit, Plus, Trash2, X } from "lucide-react";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 import EditCategoryModal from "./AddEditCategoryModal";
+import { categoryService } from "../services/categoryServie";
+import type { ExpenseCategory, ExpenseCategoryForm } from "../types/expense";
 
 type Props = {
   setShowExCatModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+type Modal = "add" | "edit" | "delete" | null;
+
 const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
   const [wait, setWait] = React.useState<boolean>(true);
-  const [showAddModal, setShowAddModal] = React.useState<boolean>(false);
-  const [showEditModal, setShowEditModal] = React.useState<boolean>(false);
   const [cats, setCats] = React.useState<ExpenseCategory[]>([]);
+  const [activeModal, setActiveModal] = React.useState<Modal>(null);
+  const [deletingCatId, setDeletingCatId] = React.useState<string | null>(null);
+  const [selectedCat, setSelectedCat] = React.useState<ExpenseCategoryForm>({
+    name: "",
+    type: "",
+  });
+
+  const resetForm = () => {
+    setSelectedCat({ name: "", type: "" });
+  };
+
+  const fetchCategories = async () => {
+    try {
+      setWait(true);
+      const res = await categoryService.getAll();
+      setCats(res.data.data);
+    } catch {
+      toast.error("Failed to load categories");
+    } finally {
+      setWait(false);
+    }
+  };
 
   React.useEffect(() => {
-    categoryService.getAll().then((res) => {
-      setCats(res.data.data);
-      setWait(false);
-    });
+    fetchCategories();
   }, []);
+
+  React.useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, []);
+
+  const handleCreate = () => {
+    categoryService.create(selectedCat).then((res) => {
+      toast.success(res.data.message);
+      resetForm();
+      fetchCategories();
+      setActiveModal(null);
+    });
+  };
+
+  const handleDelete = () => {
+    if (deletingCatId) {
+      categoryService.delete(deletingCatId).then((res) => {
+        toast.success(res.data.message);
+        resetForm();
+        fetchCategories();
+        setActiveModal(null);
+        setDeletingCatId(null);
+      });
+    }
+  };
+
+  const handleUpdate = () => {
+    if (!selectedCat._id) return;
+    categoryService.update(selectedCat._id, selectedCat).then((res) => {
+      toast.success(res.data.message);
+      fetchCategories();
+      setActiveModal(null);
+      setDeletingCatId(null);
+    });
+  };
 
   return (
     <>
@@ -32,7 +91,14 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
               Expense Categories
             </h2>
             <div className="side_actions flex items-center gap-2">
-              <Button onClick={()=>setShowAddModal(true)} variant="secondary" icon={<Plus className="w-5 h-5" />}>
+              <Button
+                onClick={() => {
+                  resetForm();
+                  setActiveModal("add");
+                }}
+                variant="secondary"
+                icon={<Plus className="w-5 h-5" />}
+              >
                 Add New
               </Button>
               <Button
@@ -76,9 +142,12 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
                           <div className="flex justify-end gap-3">
                             <Button
                               variant="ghost"
-                              className="text-green-600 hover:bg-blue-500/20"
+                              className="text-green-500 hover:bg-green-500/20"
                               title="Edit"
-                              onClick={() => setShowEditModal(true)}
+                              onClick={() => {
+                                setSelectedCat(cat);
+                                setActiveModal("edit");
+                              }}
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
@@ -87,6 +156,10 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
                               variant="ghost"
                               className="text-red-600 hover:bg-red-500/20"
                               title="Delete"
+                              onClick={() => {
+                                setActiveModal("delete");
+                                setDeletingCatId(cat._id);
+                              }}
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
@@ -111,8 +184,26 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
           </div>
         </div>
       </div>
-      {showAddModal && <EditCategoryModal setShowEditModal={setShowAddModal} operation="add"/>}
-      {showEditModal && <EditCategoryModal setShowEditModal={setShowEditModal} operation="edit"/>}
+      {(activeModal === "add" || activeModal === "edit") && (
+        <EditCategoryModal
+          operation={activeModal}
+          selectedCat={selectedCat}
+          setSelectedCat={setSelectedCat}
+          onClose={() => setActiveModal(null)}
+          onSubmit={activeModal === "add" ? handleCreate : handleUpdate}
+        />
+      )}
+      {activeModal === "delete" && (
+        <DeleteConfirmModal
+          onConfirm={handleDelete}
+          onCancel={() => {
+            setActiveModal(null);
+            setDeletingCatId(null);
+          }}
+          title="Delete Category"
+          message="Are you sure you want to delete this category? This action cannot be undone."
+        />
+      )}
     </>
   );
 };

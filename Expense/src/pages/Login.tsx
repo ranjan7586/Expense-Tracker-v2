@@ -25,7 +25,6 @@ const Login: React.FC<Props> = () => {
         setLoading(true);
         const { data } = await axiosAuth.post(`/users/login`, values);
         if (data?.user) {
-            console.log(data)
           toast.success(data?.message);
           data?.accessToken && localStorage.setItem("accessToken", data?.accessToken);
           setToken(data?.accessToken);
@@ -33,7 +32,6 @@ const Login: React.FC<Props> = () => {
           return;
         }
       } catch (error: any) {
-        console.log(error);
         toast.error(error?.response?.data?.message || "Login failed");
       } finally {
         setLoading(false); // ✅ ensures loader is always stopped
@@ -42,7 +40,6 @@ const Login: React.FC<Props> = () => {
   });
   useEffect(() => {
     if (token) {
-        console.log(token)
       navigate("/");
     }
   }, [token, navigate]);

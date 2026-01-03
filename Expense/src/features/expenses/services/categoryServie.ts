@@ -1,26 +1,26 @@
 import axiosAuth from "@/api/axiosAuth";
 import type { ApiResponse } from "@/types/api";
-import type { ExpenseCategory } from "../types/expense";
+import type { ExpenseCategory, ExpenseCategoryForm } from "../types/expense";
 
 export const categoryService = {
   getAll() {
     return axiosAuth.get<ApiResponse<ExpenseCategory[]>>("/expense-categories");
   },
-  create(data: ExpenseCategory) {
+  create(data: ExpenseCategoryForm) {
     return axiosAuth.post<ApiResponse<ExpenseCategory>>(
       "/expense-categories/create",
       data
     );
   },
-  update(id: any, data: ExpenseCategory) {
+  update(id: string, data: ExpenseCategoryForm) {
     return axiosAuth.patch<ApiResponse<ExpenseCategory>>(
-      `/expense-categories/${id}`,
+      `/expense-categories/update/${id}`,
       data
     );
   },
-  delete(id: any) {
+  delete(id: string) {
     return axiosAuth.delete<ApiResponse<ExpenseCategory>>(
-      `/expense-categories/${id}`
+      `/expense-categories/delete/${id}`
     );
   },
 };

@@ -1,19 +1,26 @@
-import { Button } from "@/components/ui";
-import { X } from "lucide-react";
 import React from "react";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui";
+import type { ExpenseCategoryForm } from "../types/expense";
 
 type Props = {
-  operation: string;
-  setShowEditModal: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
+  onSubmit: () => void;
+  operation: "add" | "edit";
+  selectedCat: ExpenseCategoryForm;
+  setSelectedCat: React.Dispatch<React.SetStateAction<ExpenseCategoryForm>>;
 };
 
-const EditCategoryModal = ({ setShowEditModal }: Props) => {
-  const [catName, setCatName] = React.useState("");
-  const [catType, setCatType] = React.useState("");
-
+const EditCategoryModal = ({
+  onClose,
+  onSubmit,
+  operation,
+  selectedCat,
+  setSelectedCat,
+}: Props) => {
   const handleCreateAndUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(catName, catType);
+    onSubmit();
   };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -26,7 +33,7 @@ const EditCategoryModal = ({ setShowEditModal }: Props) => {
           <div className="side_actions flex items-center gap-2">
             <Button
               variant="ghost"
-              onClick={() => setShowEditModal(false)}
+              onClick={onClose}
               className="p-2"
             >
               <X className="w-5 h-5 text-white" />
@@ -42,8 +49,12 @@ const EditCategoryModal = ({ setShowEditModal }: Props) => {
             </div>
             <input
               type="text"
+              value={selectedCat.name}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setCatName(e.target.value)
+                setSelectedCat((prev) => ({
+                  ...prev,
+                  name: e.target.value,
+                }))
               }
               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               placeholder="Enter category name"
@@ -55,8 +66,12 @@ const EditCategoryModal = ({ setShowEditModal }: Props) => {
             </div>
             <input
               type="text"
+              value={selectedCat.type}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setCatType(e.target.value)
+                setSelectedCat((prev) => ({
+                  ...prev,
+                  type: e.target.value,
+                }))
               }
               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               placeholder="Enter category type"
@@ -67,12 +82,11 @@ const EditCategoryModal = ({ setShowEditModal }: Props) => {
             <Button
               type="submit"
               variant="primary"
-              onClick={() => setShowEditModal(false)}
               className="bg-white/70 hover:bg-white"
             >
-              Save
+              {operation === "add" ? "Create" : "Update"}
             </Button>
-            <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            <Button variant="secondary" onClick={onClose}>
               Close
             </Button>
           </div>

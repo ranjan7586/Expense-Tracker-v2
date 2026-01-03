@@ -3,7 +3,7 @@ import type React from "react"
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: React.ReactNode;
-    variant?: 'primary' | 'secondary' | 'ghost';
+    variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
 }
 
 function Button({ variant = 'primary', icon, className, children, ...props }: ButtonProps) {
@@ -16,6 +16,7 @@ function Button({ variant = 'primary', icon, className, children, ...props }: Bu
                     'bg-white text-black': variant === 'primary',
                     'bg-white/20 text-white hover:bg-white/30': variant === 'secondary',
                     'hover:bg-white/20': variant === 'ghost',
+                    'bg-red-600 text-white hover:bg-red-700': variant === 'danger',
                 },
                 className
             )}

@@ -16,3 +16,9 @@ export interface ExpenseCategory {
   updatedAt: string;
   deletedAt: string | null;
 }
+
+export interface ExpenseCategoryForm {
+  _id?: string;       // optional (only for edit)
+  name: string;
+  type: string;
+}

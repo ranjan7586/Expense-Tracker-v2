@@ -4,6 +4,7 @@ import {
   setAccessToken,
   clearAccessToken,
 } from "@/helpers/authToken";
+import axiosRefresh from "./axiosRefresh";
 
 const axiosAuth = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -70,7 +71,7 @@ axiosAuth.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const res = await axiosAuth.post("/users/refresh-token");
+      const res = await axiosRefresh.post("/users/refresh-token");
       const newAccessToken = res.data.accessToken;
 
       setAccessToken(newAccessToken);
