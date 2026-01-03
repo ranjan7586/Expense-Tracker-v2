@@ -50,35 +50,44 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
     };
   }, []);
 
-  const handleCreate = () => {
-    categoryService.create(selectedCat).then((res) => {
+  const handleCreate = async () => {
+    try {
+      const res = await categoryService.create(selectedCat);
       toast.success(res.data.message);
       resetForm();
       fetchCategories();
       setActiveModal(null);
-    });
+    } catch (error: any) {
+      toast.error("Failed to create category - " + error.response.data.message);
+    }
   };
 
-  const handleDelete = () => {
-    if (deletingCatId) {
-      categoryService.delete(deletingCatId).then((res) => {
+  const handleDelete = async () => {
+    try {
+      if (deletingCatId) {
+        const res = await categoryService.delete(deletingCatId);
         toast.success(res.data.message);
         resetForm();
         fetchCategories();
         setActiveModal(null);
         setDeletingCatId(null);
-      });
+      }
+    } catch (error: any) {
+      toast.error("Failed to delete category - " + error.response.data.message);
     }
   };
 
-  const handleUpdate = () => {
-    if (!selectedCat._id) return;
-    categoryService.update(selectedCat._id, selectedCat).then((res) => {
+  const handleUpdate = async () => {
+    try {
+      if (!selectedCat._id) return;
+      const res = await categoryService.update(selectedCat._id, selectedCat);
       toast.success(res.data.message);
       fetchCategories();
       setActiveModal(null);
       setDeletingCatId(null);
-    });
+    } catch (error: any) {
+      toast.error("Failed to update category - " + error.response.data.message);
+    }
   };
 
   return (
