@@ -50,9 +50,9 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
     };
   }, []);
 
-  const handleCreate = async () => {
+  const handleCreate = async (values: ExpenseCategoryForm) => {
     try {
-      const res = await categoryService.create(selectedCat);
+      const res = await categoryService.create(values);
       toast.success(res.data.message);
       resetForm();
       fetchCategories();
@@ -77,10 +77,10 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
     }
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (values: ExpenseCategoryForm) => {
     try {
-      if (!selectedCat._id) return;
-      const res = await categoryService.update(selectedCat._id, selectedCat);
+      if (!values._id) return;
+      const res = await categoryService.update(values._id, values);
       toast.success(res.data.message);
       fetchCategories();
       setActiveModal(null);
@@ -197,7 +197,6 @@ const ExpenseCatListModal = ({ setShowExCatModal }: Props) => {
         <EditCategoryModal
           operation={activeModal}
           selectedCat={selectedCat}
-          setSelectedCat={setSelectedCat}
           onClose={() => setActiveModal(null)}
           onSubmit={activeModal === "add" ? handleCreate : handleUpdate}
         />
