@@ -13,12 +13,15 @@ const TransactionTable: React.FC<Props> = ({ expenses }: Props) => {
         <h2 className="text-xl font-bold text-gray-800">Recent Transactions</h2>
       </div>
       <div className="overflow-x-auto">
-        {expenses ? (
+        {expenses.length > 0 ? (
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Description
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Amount
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Category
@@ -27,7 +30,10 @@ const TransactionTable: React.FC<Props> = ({ expenses }: Props) => {
                   Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Amount
+                  Mode
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  For
                 </th>
               </tr>
             </thead>

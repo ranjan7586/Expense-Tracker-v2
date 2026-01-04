@@ -9,10 +9,11 @@ import expenseService from "../services/expenseService";
 import { toast } from "react-toastify";
 
 type Props = {
+  onSuccess: () => void;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddExpenseModal = ({ setShowModal }: Props) => {
+const AddExpenseModal = ({ setShowModal, onSuccess }: Props) => {
   const today = new Date().toISOString().split("T")[0];
   const [loadingCats, setLoadingCats] = React.useState(false);
   const [cats, setCats] = React.useState<ExpenseCategory[]>([]);
@@ -45,6 +46,7 @@ const AddExpenseModal = ({ setShowModal }: Props) => {
     try {
       const res = await expenseService.create(data);
       toast.success(res.data.message);
+      onSuccess();
       setShowModal(false);
       resetForm();
     } catch (error: any) {

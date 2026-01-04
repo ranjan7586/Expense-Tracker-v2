@@ -176,7 +176,7 @@ const Home: React.FC<Props> = () => {
           </div>
         )}
       </div>
-      {showModal && <AddExpenseModal setShowModal={setShowModal} />}
+      {showModal && <AddExpenseModal setShowModal={setShowModal} onSuccess={fetchExpenses}/>}
       {showExCatModal && (
         <ExpenseCatListModal setShowExCatModal={setShowExCatModal} />
       )}

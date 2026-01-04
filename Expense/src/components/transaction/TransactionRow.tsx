@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { ucfirst } from "@/helpers/helpers";
 import type { Expense } from "@/features/expenses/types/expense";
 import { getCategoryDisplay } from "@/features/expenses/helpers/categoryHelpers.tsx";
 
@@ -25,6 +26,9 @@ const TransactionRow: React.FC<Props> = ({ expense }) => {
           <span className="text-gray-900 font-medium">{expense.title}</span>
         </div>
       </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold">
+        <span className="text-red-600">₹ {expense.amount}</span>
+      </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
           {expense.category?.name}
@@ -33,8 +37,11 @@ const TransactionRow: React.FC<Props> = ({ expense }) => {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {formattedDate}
       </td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold">
-        <span className="text-red-600">₹ {expense.amount}</span>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {ucfirst(expense.expense_mode)}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        For {ucfirst(expense.expense_for)}
       </td>
     </tr>
   );
