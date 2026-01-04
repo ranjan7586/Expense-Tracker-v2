@@ -16,50 +16,28 @@ import AppHeader from "../components/layout/AppHeader";
 import TopDtlsBar from "../components/layout/TopDtlsBar";
 import { ActionButton, ToggleButton } from "@/components/ui";
 import ExpenseCatListModal from "@/features/expenses/components/ExpenseCatListModal";
+import expenseService from "@/features/expenses/services/expenseService";
 
 type Props = {};
-const expenses: Expense[] = [
-  {
-    id: 2,
-    title: "Salary",
-    amount: 3500.0,
-    category: "Income",
-    date: "2024-01-25",
-    type: "income",
-    icon: "DollarSign",
-  },
-  {
-    id: 3,
-    title: "Gas Station",
-    amount: 45.2,
-    category: "Transport",
-    date: "2024-01-24",
-    type: "expense",
-    icon: "Car",
-  },
-  {
-    id: 1,
-    title: "Grocery Shopping",
-    amount: 85.5,
-    category: "Food",
-    date: "2024-01-26",
-    type: "expense",
-    icon: "ShoppingCart",
-  },
-  {
-    id: 4,
-    title: "Netflix Subscription",
-    amount: 15.99,
-    category: "Entertainment",
-    date: "2024-01-23",
-    type: "expense",
-    icon: "Gamepad2",
-  },
-];
 const Home: React.FC<Props> = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [showExCatModal, setShowExCatModal] = React.useState(false);
   const [currentView, setCurrentView] = React.useState("overview");
+  const [expenses, setExpenses] = React.useState<Expense[]>([]);
+
+  const fetchExpenses = async () => {
+    try {
+      const res = await expenseService.getAll();
+      setExpenses(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchExpenses();
+  }, []);
+
   return (
     <div className="container_main min-h-screen p-6">
       <AppHeader />

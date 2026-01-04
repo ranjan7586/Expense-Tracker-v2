@@ -1,0 +1,43 @@
+import React, { useMemo } from "react";
+import type { Expense } from "@/features/expenses/types/expense";
+import { getCategoryDisplay } from "@/features/expenses/helpers/categoryHelpers.tsx";
+
+type Props = {
+  expense: Expense;
+};
+
+const TransactionRow: React.FC<Props> = ({ expense }) => {
+  const { icon, colors } = useMemo(
+    () => getCategoryDisplay(expense.category?.type),
+    [expense.category?.type]
+  );
+
+  const formattedDate = useMemo(
+    () => new Date(expense.date).toLocaleDateString(),
+    [expense.date]
+  );
+
+  return (
+    <tr className="hover:bg-gray-50 transition-colors duration-200">
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="flex items-center">
+          <div className={`p-2 rounded-lg mr-3 ${colors}`}>{icon}</div>
+          <span className="text-gray-900 font-medium">{expense.title}</span>
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+          {expense.category?.name}
+        </span>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        {formattedDate}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold">
+        <span className="text-red-600">₹ {expense.amount}</span>
+      </td>
+    </tr>
+  );
+};
+
+export default React.memo(TransactionRow);

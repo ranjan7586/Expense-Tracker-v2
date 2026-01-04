@@ -1,24 +1,31 @@
 export interface Expense {
-  id: string | number;
+  _id: string;
   title: string;
   amount: number;
-  category: string;
+  expense_mode: string;
+  expense_for: string;
+  category: ExpenseCategory;
   date: string;
-  type: string;
-  icon: string;
 }
 
 export interface ExpenseCategory {
   _id: string;
   name: string;
   type: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
 }
 
 export interface ExpenseCategoryForm {
-  _id?: string;       // optional (only for edit)
+  _id?: string; // optional (only for edit)
   name: string;
   type: string;
+}
+
+export interface ExpenseForm {
+  _id?: string; // optional (only for edit)
+  title: string;
+  amount: number;
+  expense_mode: string;
+  expense_for: string;
+  category: string;
+  date: string;
 }
