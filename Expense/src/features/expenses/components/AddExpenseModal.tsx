@@ -44,6 +44,7 @@ const AddExpenseModal = ({ setShowModal, onSuccess }: Props) => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
+      data.date = new Date(data.date).toISOString();
       const res = await expenseService.create(data);
       toast.success(res.data.message);
       onSuccess();
@@ -217,7 +218,7 @@ const AddExpenseModal = ({ setShowModal, onSuccess }: Props) => {
                 </label>
                 <Field
                   name="date"
-                  type="date"
+                  type="datetime-local"
                   className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                   placeholder="0.00"
                 />

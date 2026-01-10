@@ -25,6 +25,12 @@ class ExpenseService {
   delete(id: string) {
     return axiosAuth.delete<ApiResponse<Expense>>(`/expenses/delete/${id}`);
   }
+
+  getTotalExpense(period: string) {
+    return axiosAuth.get<ApiResponse<number>>(
+      `/expenses/get-total-expense/${period}`
+    );
+  }
 }
 
 export default new ExpenseService();

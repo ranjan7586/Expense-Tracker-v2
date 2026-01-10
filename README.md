@@ -1,63 +1,5 @@
 
-```
-Expnse_RN
-└─ Expense
-   ├─ .env
-   ├─ eslint.config.js
-   ├─ index.html
-   ├─ package-lock.json
-   ├─ package.json
-   ├─ public
-   │  ├─ design of a expense .png
-   │  └─ vite.svg
-   ├─ README.md
-   ├─ src
-   │  ├─ App.css
-   │  ├─ App.tsx
-   │  ├─ assets
-   │  │  └─ react.svg
-   │  ├─ axios
-   │  │  └─ axiosAuth.ts
-   │  ├─ components
-   │  │  ├─ charts
-   │  │  │  └─ LineChart.tsx
-   │  │  ├─ GlobalLoader.tsx
-   │  │  ├─ layouts
-   │  │  │  ├─ AppHeader.tsx
-   │  │  │  └─ TopDtlsBar.tsx
-   │  │  ├─ Mod
-   │  │  ├─ Parts
-   │  │  │  └─ AddExpenseModal.tsx
-   │  │  ├─ transaction
-   │  │  │  └─ TransactionTable.tsx
-   │  │  └─ ui
-   │  │     ├─ Email.tsx
-   │  │     ├─ InputFields
-   │  │     └─ Password.tsx
-   │  ├─ contexts
-   │  │  └─ LoaderContext.tsx
-   │  ├─ errors
-   │  │  └─ ErrorBoundary.tsx
-   │  ├─ helpers
-   │  │  └─ helpers.ts
-   │  ├─ index.css
-   │  ├─ main.tsx
-   │  ├─ pages
-   │  │  ├─ ExampleDesign.tsx
-   │  │  ├─ Home.tsx
-   │  │  └─ Login.tsx
-   │  ├─ Router.tsx
-   │  ├─ types
-   │  │  └─ expense.ts
-   │  ├─ validations
-   │  │  └─ loginform.ts
-   │  └─ vite-env.d.ts
-   ├─ tsconfig.app.json
-   ├─ tsconfig.json
-   ├─ tsconfig.node.json
-   └─ vite.config.ts
 
-```
 ```
 Expnse_RN
 ├─ Expense
@@ -72,7 +14,8 @@ Expnse_RN
 │  ├─ README.md
 │  ├─ src
 │  │  ├─ api
-│  │  │  └─ axiosAuth.ts
+│  │  │  ├─ axiosAuth.ts
+│  │  │  └─ axiosRefresh.ts
 │  │  ├─ App.css
 │  │  ├─ App.tsx
 │  │  ├─ assets
@@ -86,19 +29,39 @@ Expnse_RN
 │  │  │  │  ├─ AppHeader.tsx
 │  │  │  │  └─ TopDtlsBar.tsx
 │  │  │  ├─ transaction
+│  │  │  │  ├─ TransactionRow.tsx
 │  │  │  │  └─ TransactionTable.tsx
 │  │  │  └─ ui
-│  │  │     ├─ Email.tsx
-│  │  │     └─ Password.tsx
+│  │  │     ├─ ActionButton.tsx
+│  │  │     ├─ Button.tsx
+│  │  │     ├─ EmailInput.tsx
+│  │  │     ├─ IconButton.tsx
+│  │  │     ├─ index.ts
+│  │  │     ├─ PasswordInput.tsx
+│  │  │     └─ ToggleButton.tsx
 │  │  ├─ contexts
-│  │  │  └─ LoaderContext.tsx
+│  │  │  ├─ AuthContext.tsx
+│  │  │  ├─ AuthProvider.tsx
+│  │  │  ├─ LoaderContext.tsx
+│  │  │  └─ useAuth.ts
 │  │  ├─ errors
 │  │  │  └─ ErrorBoundary.tsx
 │  │  ├─ features
 │  │  │  └─ expenses
-│  │  │     └─ components
-│  │  │        └─ AddExpenseModal.tsx
+│  │  │     ├─ components
+│  │  │     │  ├─ AddEditCategoryModal.tsx
+│  │  │     │  ├─ AddExpenseModal.tsx
+│  │  │     │  ├─ DeleteConfirmModal.tsx
+│  │  │     │  └─ ExpenseCatListModal.tsx
+│  │  │     ├─ helpers
+│  │  │     │  └─ categoryHelpers.tsx
+│  │  │     ├─ services
+│  │  │     │  ├─ categoryServie.ts
+│  │  │     │  └─ expenseService.ts
+│  │  │     └─ types
+│  │  │        └─ expense.ts
 │  │  ├─ helpers
+│  │  │  ├─ authToken.ts
 │  │  │  └─ helpers.ts
 │  │  ├─ index.css
 │  │  ├─ main.tsx
@@ -107,15 +70,20 @@ Expnse_RN
 │  │  │  ├─ Home.tsx
 │  │  │  └─ Login.tsx
 │  │  ├─ routes
+│  │  │  ├─ AuthGuard.tsx
+│  │  │  ├─ PublicGuard.tsx
 │  │  │  └─ Router.tsx
 │  │  ├─ types
-│  │  │  └─ expense.ts
+│  │  │  └─ api.ts
 │  │  ├─ validations
-│  │  │  └─ auth.ts
+│  │  │  ├─ auth.ts
+│  │  │  ├─ category.ts
+│  │  │  └─ expense.ts
 │  │  └─ vite-env.d.ts
 │  ├─ tsconfig.app.json
 │  ├─ tsconfig.json
 │  ├─ tsconfig.node.json
+│  ├─ vercel.json
 │  └─ vite.config.ts
 └─ README.md
 

@@ -13,10 +13,13 @@ const TransactionRow: React.FC<Props> = ({ expense }) => {
     [expense.category?.type]
   );
 
-  const formattedDate = useMemo(
-    () => new Date(expense.date).toLocaleDateString(),
-    [expense.date]
-  );
+  const formattedDateTime = new Date(expense.date).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <tr className="hover:bg-gray-50 transition-colors duration-200">
@@ -35,7 +38,7 @@ const TransactionRow: React.FC<Props> = ({ expense }) => {
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {formattedDate}
+        {formattedDateTime}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {ucfirst(expense.expense_mode)}
