@@ -6,10 +6,13 @@ import {
   ChartArea,
   CreditCard,
   Filter,
+  IndianRupee,
   List,
   Plus,
+  Settings,
   Table,
   TrendingUp,
+  User,
 } from "lucide-react";
 import AddExpenseModal from "../features/expenses/components/AddExpenseModal";
 import AppHeader from "../components/layout/AppHeader";
@@ -17,6 +20,7 @@ import TopDtlsBar from "../components/layout/TopDtlsBar";
 import { ActionButton, ToggleButton } from "@/components/ui";
 import ExpenseCatListModal from "@/features/expenses/components/ExpenseCatListModal";
 import expenseService from "@/features/expenses/services/expenseService";
+import DropdownMenu from "@/components/ui/DropdownMenu";
 
 type Props = {};
 const Home: React.FC<Props> = () => {
@@ -74,7 +78,7 @@ const Home: React.FC<Props> = () => {
           </div>
         </div>
         <div className="hero_add_filter">
-          <div className="add_filter_inner flex gap-5">
+          <div className="add_filter_inner flex gap-5 flex-wrap">
             <div className="add_expense_btn">
               {/* <button onClick={() => setShowModal(true)} className='px-5 py-3 rounded-2xl font-semibold inline-flex items-center gap-2 cursor-pointer bg-white'>
                                 <Plus /> Add Expense
@@ -101,6 +105,30 @@ const Home: React.FC<Props> = () => {
               >
                 <Filter /> Filter
               </button>
+            </div>
+            <div className="settings_btn relative">
+              <DropdownMenu
+                trigger={
+                  <ActionButton icon={<Settings />}>Settings</ActionButton>
+                }
+              >
+                {/* These are the menu items that appear when the dropdown 
+      open */}
+                <ActionButton
+                  variant="ghost"
+                  className="w-full justify-start text-white hover:bg-white/10"
+                  icon={<IndianRupee />}
+                >
+                  Manage Budget
+                </ActionButton>
+                <ActionButton
+                  variant="ghost"
+                  className="w-full justify-start text-white hover:bg-white/10"
+                  icon={<User />}
+                >
+                  Profile
+                </ActionButton>
+              </DropdownMenu>
             </div>
           </div>
         </div>
@@ -176,7 +204,12 @@ const Home: React.FC<Props> = () => {
           </div>
         )}
       </div>
-      {showModal && <AddExpenseModal setShowModal={setShowModal} onSuccess={fetchExpenses}/>}
+      {showModal && (
+        <AddExpenseModal
+          setShowModal={setShowModal}
+          onSuccess={fetchExpenses}
+        />
+      )}
       {showExCatModal && (
         <ExpenseCatListModal setShowExCatModal={setShowExCatModal} />
       )}
