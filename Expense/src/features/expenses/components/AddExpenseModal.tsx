@@ -1,5 +1,4 @@
 import React from "react";
-import { X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { expenseSchema } from "@/validations/expense";
 import { ErrorMessage, Field, Form, Formik } from "formik";

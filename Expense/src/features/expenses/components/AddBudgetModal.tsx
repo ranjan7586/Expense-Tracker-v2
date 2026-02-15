@@ -43,7 +43,7 @@ const AddBudgetModal: React.FC<Props> = ({
                 htmlFor="amount"
                 className="block text-sm font-medium text-white/80 mb-2"
               >
-                Category Name
+                Budget Amount
               </label>
               <Field
                 type="number"
