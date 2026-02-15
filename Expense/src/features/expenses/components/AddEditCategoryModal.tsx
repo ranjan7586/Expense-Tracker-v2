@@ -1,5 +1,4 @@
 import React from "react";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui";
 import Modal from "@/components/ui/Modal";
 import { categorySchema } from "@/validations/category";
@@ -20,16 +19,12 @@ const EditCategoryModal: React.FC<Props> = ({
   selectedCat,
 }: Props) => {
   return (
-    <Modal onClose={onClose} width="max-w-xl" padding="p-0">
-      <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-        <h2 className="text-lg font-semibold text-white">
-          {operation === "add" ? "Add" : "Update"} Expense Category
-        </h2>
-        <Button variant="ghost" onClick={onClose} className="p-2">
-          <X className="w-5 h-5 text-white" />
-        </Button>
-      </div>
-
+    <Modal
+      onClose={onClose}
+      width="max-w-xl"
+      padding="p-0"
+      title={`${operation === "add" ? "Add" : "Update"} Expense Category`}
+    >
       <Formik
         initialValues={selectedCat}
         validationSchema={categorySchema}

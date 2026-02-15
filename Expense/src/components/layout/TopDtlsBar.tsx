@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
+import { useBudget } from "@/contexts/useBudget";
 import { Calendar, DollarSign, TrendingUp } from "lucide-react";
-import budgetService from "@/features/expenses/services/budgetService";
 import expenseService from "@/features/expenses/services/expenseService";
 
 type Props = {};
 
 const TopDtlsBar: React.FC<Props> = () => {
-  const [budget, setBudget] = React.useState(0);
+  const { budget } = useBudget();
   const [totalExpense, setTotalExpense] = React.useState(0);
   const getTotalExpense = async () => {
     try {
@@ -14,14 +14,7 @@ const TopDtlsBar: React.FC<Props> = () => {
       setTotalExpense(data.data.data);
     } catch (error) {}
   };
-  const getBudget = async () => {
-    try {
-      const data = await budgetService.getBudget("monthly");
-      setBudget(data.data.data.amount);
-    } catch (error) {}
-  };
   useEffect(() => {
-    getBudget();
     getTotalExpense();
   }, []);
   return (

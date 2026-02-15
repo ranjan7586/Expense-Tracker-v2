@@ -3,7 +3,9 @@ import LineChartGraph from "../components/charts/LineChart";
 import type { Expense } from "../features/expenses/types/expense";
 import TransactionTable from "../components/transaction/TransactionTable";
 import {
+  Calendar,
   ChartArea,
+  ChevronDown,
   CreditCard,
   Filter,
   IndianRupee,
@@ -17,18 +19,24 @@ import {
 import AddExpenseModal from "../features/expenses/components/AddExpenseModal";
 import AppHeader from "../components/layout/AppHeader";
 import TopDtlsBar from "../components/layout/TopDtlsBar";
-import { ActionButton, ToggleButton } from "@/components/ui";
+import { ActionButton, Button, ToggleButton } from "@/components/ui";
 import ExpenseCatListModal from "@/features/expenses/components/ExpenseCatListModal";
 import expenseService from "@/features/expenses/services/expenseService";
 import DropdownMenu from "@/components/ui/DropdownMenu";
+import BudgetMenus from "@/features/expenses/components/BudgetMenus";
+import CustomDateRangeModal from "@/features/expenses/components/CustomDateRangeModal";
 
 type Props = {};
 const Home: React.FC<Props> = () => {
   const [showModal, setShowModal] = React.useState(false);
+  const [showBudgetMenu, setShowBudgetMenu] = React.useState(false);
   const [showExCatModal, setShowExCatModal] = React.useState(false);
   const [currentView, setCurrentView] = React.useState("overview");
   const [expenses, setExpenses] = React.useState<Expense[]>([]);
-
+  const [selectedPeriod, setSelectedPeriod] = React.useState("Monthly");
+  const periods = ["Daily", "Weekly", "Monthly", "Yearly", "Custom Range"];
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
+  const [dateRange, setDateRange] = React.useState({ start: "", end: "" });
   const fetchExpenses = async () => {
     try {
       const res = await expenseService.getAll();
@@ -36,6 +44,26 @@ const Home: React.FC<Props> = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // 3. Create a handler for the dropdown selection
+  const handlePeriodSelect = (period: string) => {
+    if (period === "Custom Range") {
+      setShowDatePicker(true);
+    } else {
+      setSelectedPeriod(period);
+      setDateRange({ start: "", end: "" }); // Reset dates if switching back to standard periods
+      // TODO: Call your context or API refresh function here
+    }
+  };
+
+  // 4. Create a handler for when the custom range is applied
+  const handleCustomRangeApply = (start: string, end: string) => {
+    setDateRange({ start, end });
+    console.log(dateRange)
+    setSelectedPeriod("Custom Range");
+    setShowDatePicker(false);
+    // TODO: Call your context or API refresh function here with the specific dates
   };
 
   React.useEffect(() => {
@@ -118,6 +146,7 @@ const Home: React.FC<Props> = () => {
                   variant="ghost"
                   className="w-full justify-start text-white hover:bg-white/10"
                   icon={<IndianRupee />}
+                  onClick={() => setShowBudgetMenu(true)}
                 >
                   Manage Budget
                 </ActionButton>
@@ -128,6 +157,34 @@ const Home: React.FC<Props> = () => {
                 >
                   Profile
                 </ActionButton>
+              </DropdownMenu>
+            </div>
+            <div className="period_switch ml-auto">
+              {/* ml-auto pushes it to the right edge */}
+              <DropdownMenu
+                trigger={
+                  <Button
+                    variant="secondary"
+                    className="gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-2xl"
+                  >
+                    <Calendar className="w-4 h-4" />
+                    {selectedPeriod}
+                    <ChevronDown className="w-4 h-4 opacity-70" />
+                  </Button>
+                }
+              >
+                {periods.map((period) => (
+                  <Button
+                    key={period}
+                    variant="ghost"
+                    className={`w-full justify-start text-white hover:bg-white/10 ${
+                      selectedPeriod === period ? "bg-white/20 font-bold" : ""
+                    }`}
+                    onClick={() => handlePeriodSelect(period)} // <-- Use the new handler here
+                  >
+                    {period}
+                  </Button>
+                ))}
               </DropdownMenu>
             </div>
           </div>
@@ -212,6 +269,16 @@ const Home: React.FC<Props> = () => {
       )}
       {showExCatModal && (
         <ExpenseCatListModal setShowExCatModal={setShowExCatModal} />
+      )}
+      {showBudgetMenu && (
+        <BudgetMenus onClose={() => setShowBudgetMenu(false)} />
+      )}
+      {/* NEW: Date Picker Modal */}
+      {showDatePicker && (
+        <CustomDateRangeModal
+          onClose={() => setShowDatePicker(false)}
+          onApply={handleCustomRangeApply}
+        />
       )}
     </div>
   );
